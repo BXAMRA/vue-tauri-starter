@@ -9,11 +9,12 @@ A minimal, production-ready template for building cross-platform desktop applica
 - 🚀 **Vite** - Lightning-fast build tool
 - 🦀 **Tauri v2** - Build smaller, faster, and more secure desktop apps
 - 🛣️ **Vue Router** - Official routing library
+- 📦 **3-5MB Executables** - Tiny app bundles compared to Electron
 - 🔒 **Rust Backend** - Secure and performant native backend
 
 ## 📋 Prerequisites
 
-- **Node.js** 24+ and npm
+- **Node.js** 18+ and npm
   ```bash
   node -v  # v25.2.1 or higher
   npm -v   # 11.6.2 or higher
@@ -71,6 +72,7 @@ vue-tauri-starter/
 │   ├── Cargo.toml         # Rust dependencies
 │   └── tauri.conf.json    # Tauri configuration
 ├── app/                   # Vite build output (gitignored)
+├── app-icon.png           # Main 1024x1024 icon source
 ├── index.html             # HTML entry point
 ├── vite.config.js         # Vite configuration
 ├── tailwind.config.js     # Tailwind configuration
@@ -104,12 +106,17 @@ Edit `src-tauri/tauri.conf.json`:
 
 ### Replace App Icon
 
-1. Create a 1024x1024 PNG icon
+1. Place your 1024x1024 PNG icon in the **project root** (e.g., `app-icon.png`)
 2. Generate all required formats:
    ```bash
-   npm run tauri icon path/to/your-icon.png
+   npm run tauri icon app-icon.png
    ```
 3. Icons will be generated in `src-tauri/icons/`
+
+**Optional - Remove mobile icons (desktop-only template):**
+```bash
+rm -rf src-tauri/icons/android src-tauri/icons/ios
+```
 
 ### Path Aliases
 
@@ -186,6 +193,8 @@ This template is open source and available under the MIT License.
 
 - Keep `Cargo.toml` and `main.rs` generic across projects
 - Only modify `tauri.conf.json` for app-specific settings
+- Place your main icon (1024x1024 PNG) in project root before generating
+- Mobile icon folders can be safely deleted for desktop-only apps
 - Use `src-tauri/capabilities` for permissions and security policies
 - Check [Tauri documentation](https://v2.tauri.app/) for advanced features
 
