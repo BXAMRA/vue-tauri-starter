@@ -1,6 +1,4 @@
-# **Tauri Desktop App Starter**
-
-# Vite + Vue + Tauri
+# **Tauri Desktop App Starter** _(Vite + Vue + Tauri)_
 
 A minimal, production-ready template for building cross-platform desktop applications using Vue 3, Vite, Tailwind CSS, and Tauri.
 
