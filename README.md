@@ -139,20 +139,58 @@ To switch back to native window chrome/title bars, see Tauri’s Window Customiz
 
 ## 📦 Available Scripts
 
+_Start Tauri development app_
+
 ```bash
-pnpm dev                   # Start Tauri development app
-pnpm build                 # Type-check + build production executable
+pnpm dev
+```
 
-pnpm vite:dev              # Start Vite dev server only
-pnpm vite:build            # Type-check + build Vue app for production
+_Type-check + build production executable_
 
-pnpm type-check            # TypeScript type-check only (no emit)
+```bash
+pnpm build
+```
 
-pnpm cargo:clean           # cargo clean (src-tauri/Cargo.toml)
-pnpm cargo:update          # cargo update (src-tauri/Cargo.toml)
+_Start Vite dev server only_
 
-pnpm create-desktop-icons  # Generate desktop icons from app-icon.png, and cleans up
-pnpm vite:clean            # Clean Vite cache + build output (node_modules/.vite + app)
+```bash
+pnpm vite:dev
+```
+
+_Type-check + build Vue app for production_
+
+```bash
+pnpm vite:build
+```
+
+_TypeScript type-check only (no emit)_
+
+```bash
+pnpm type-check
+```
+
+_cargo clean (src-tauri/Cargo.toml)_
+
+```bash
+pnpm cargo:clean
+```
+
+_cargo update (src-tauri/Cargo.toml)_
+
+```bash
+pnpm cargo:update
+```
+
+_Generate desktop icons from app-icon.png, and cleans up generated files for iOS and Android_
+
+```bash
+pnpm create-desktop-icons
+```
+
+_Clean Vite cache + build output (node_modules/.vite + app)_
+
+```bash
+pnpm vite:clean
 ```
 
 ## 🛠️ Tech Stack
