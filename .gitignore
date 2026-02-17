@@ -2,6 +2,9 @@
 /src-tauri/target/
 /src-tauri/gen/schemas
 
+src-tauri/icons
+src-tauri/icons/*/**
+
 # V U E
 logs
 *.log
@@ -22,5 +25,3 @@ app-ssr
 *.sw?
 
 !src/**/*
-
-src-tauri/icons/
