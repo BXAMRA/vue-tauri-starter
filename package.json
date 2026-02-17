@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json",
     "cargo:clean": "cargo clean --manifest-path src-tauri/Cargo.toml",
     "cargo:update": "cargo update --manifest-path src-tauri/Cargo.toml",
+    "remove-mobile-assets": "rm -rf src-tauri/icons/android src-tauri/icons/ios",
     "vite:clean": "rm -rf node_modules/.vite app"
   },
   "dependencies": {
