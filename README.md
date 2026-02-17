@@ -1,4 +1,4 @@
-# Vue + Tauri Desktop App Starter
+# Vite + Vue + Tauri Desktop App Starter
 
 A minimal, production-ready template for building cross-platform desktop applications using Vue 3, Vite, Tailwind CSS, and Tauri.
 
@@ -9,21 +9,25 @@ A minimal, production-ready template for building cross-platform desktop applica
 - 🚀 **Vite** - Lightning-fast build tool
 - 🦀 **Tauri v2** - Build smaller, faster, and more secure desktop apps
 - 🛣️ **Vue Router** - Official routing library
-- 📦 **3-5MB Executables** - Tiny app bundles compared to Electron
+- 🧩 **shadcn-vue** _(pre-configured)_ - Ready to use with aliases + components/ui structure
+- 📦 **3–5MB Executables** - Tiny app bundles compared to Electron
 - 🔒 **Rust Backend** - Secure and performant native backend
+- 🪟 **Frameless windows + custom title bar** - Custom drag region + window controls
 
 ## 📋 Prerequisites
 
-- **Node.js** 18+ and npm
-  ```bash
-  node -v  # v25.2.1 or higher
-  npm -v   # 11.6.2 or higher
-  ```
+- **Node.js** 24+ and **pnpm**
 
-- **Rust** 1.70+
-  ```bash
-  curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
-  ```
+```bash
+node -v
+pnpm -v
+```
+
+- **Rust** (stable)
+
+```bash
+curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+```
 
 ## 🚀 Quick Start
 
@@ -34,49 +38,52 @@ Click the **"Use this template"** button on GitHub or clone:
 ```bash
 git clone https://github.com/BXAMRA/vue-tauri-starter.git my-app
 cd my-app
-npm install
+pnpm install
 ```
 
-### 2. Run Development Server
+### 2. Run Development App
 
 ```bash
-npm run tauri:dev
+pnpm tauri dev
 ```
 
-This starts Vite dev server and launches the Tauri app window.
+This starts the Vite dev server and launches the Tauri desktop window.
 
 ### 3. Build for Production
 
 ```bash
-npm run tauri:build
+pnpm tauri build
 ```
 
-Executables will be in `src-tauri/target/release/bundle/`
+Executables will be in `src-tauri/target/release/bundle/`.
 
 ## 📁 Project Structure
 
-```
+```text
 vue-tauri-starter/
-├── src/                    # Vue source files
-│   ├── assets/            # Static assets
-│   ├── components/        # Vue components
-│   ├── layouts/           # Layout components
-│   ├── views/             # Page views
-│   ├── router/            # Vue Router config
-│   ├── App.vue            # Root component
-│   └── main.js            # Vue entry point
-├── src-tauri/             # Tauri/Rust backend
+├── src/                          # Vue source files
+│   ├── assets/                   # Static assets
+│   ├── components/
+│   │   ├── app/                  # Custom app components (TitleBar, PreferencesDialog, etc.)
+│   │   └── ui/                   # shadcn-vue components
+│   ├── composables/              # Vue composables
+│   ├── layouts/                  # Layout components
+│   ├── pages/                    # Route pages
+│   ├── services/                 # App services (e.g., persisted settings)
+│   ├── App.vue                   # Root component
+│   ├── main.ts                   # Vue entry point
+│   └── router.ts                 # Vue Router config
+├── src-tauri/                    # Tauri/Rust backend
 │   ├── src/
-│   │   └── main.rs        # Rust entry point
-│   ├── icons/             # App icons
-│   ├── Cargo.toml         # Rust dependencies
-│   └── tauri.conf.json    # Tauri configuration
-├── app/                   # Vite build output (gitignored)
-├── app-icon.png           # Main 1024x1024 icon source
-├── index.html             # HTML entry point
-├── vite.config.js         # Vite configuration
-├── tailwind.config.js     # Tailwind configuration
-└── package.json           # Node dependencies
+│   │   └── main.rs               # Rust entry point
+│   ├── icons/                    # App icons
+│   ├── Cargo.toml                # Rust dependencies
+│   └── tauri.conf.json           # Tauri configuration
+├── app/                          # Vite build output (gitignored)
+├── app-icon.png                  # Main 1024x1024 icon source
+├── index.html                    # HTML entry point
+├── vite.config.ts                # Vite configuration
+└── package.json                  # Node dependencies
 ```
 
 ## 🎨 Customization
@@ -89,66 +96,75 @@ Edit `src-tauri/tauri.conf.json`:
 {
   "productName": "My Awesome App",
   "version": "1.0.0",
-  "identifier": "com.mycompany.myapp",
-  "app": {
-    "windows": [
-      {
-        "title": "My Awesome App",
-        "width": 1200,
-        "height": 800,
-        "resizable": true,
-        "fullscreen": false
-      }
-    ]
-  }
+  "identifier": "com.mycompany.myapp"
 }
 ```
 
 ### Replace App Icon
 
-1. Place your 1024x1024 PNG icon in the **project root** (e.g., `app-icon.png`)
-2. Generate all required formats:
-   ```bash
-   npm run tauri icon app-icon.png
-   ```
-3. Icons will be generated in `src-tauri/icons/`
+1. Place your 1024×1024 PNG icon in the project root (e.g., `app-icon.png`)
+2. Generate all required formats (for desktop only):
 
-**Optional - Remove mobile icons (desktop-only template):**
 ```bash
-rm -rf src-tauri/icons/android src-tauri/icons/ios
+pnpm create-desktop-icons
 ```
+
+3. Icons will be generated in `src-tauri/icons/`
 
 ### Path Aliases
 
-Configured in `vite.config.js`:
+Configured in `vite.config.ts`:
 
-```javascript
-import MyComponent from '@/components/MyComponent.vue';
-import MyView from '@views/MyView.vue';
-import MyLayout from '@layouts/MyLayout.vue';
+```ts
+import MyComponent from '@/components/MyComponent.vue'
+import Home from '@pages/Home.vue'
+import DefaultView from '@layouts/DefaultView.vue'
+import TitleBar from '@app/TitleBar.vue'
+import { Button } from '@ui/button'
+import { baseFontSize } from '@services/Store'
+import { useAppMenu } from '@composables/AppMenu'
 ```
+
+### App Preferences
+
+- Open from the title bar (gear icon); tooltip shows Cmd/Ctrl + ,.
+- Text size can be adjusted (14–22), previewed live, and saved.
+- Saved preferences persist and are applied on app startup.
+
+## 🪟 Frameless windows + custom title bar
+
+This starter configures the windows as frameless (`decorations: false`) and uses a custom Vue title bar for drag + window controls.
+
+To switch back to native window chrome/title bars, see Tauri’s Window Customization docs.
 
 ## 📦 Available Scripts
 
 ```bash
-npm run dev          # Start Vite dev server only
-npm run build        # Build Vue app for production
-npm run preview      # Preview production build
+pnpm dev                   # Start Tauri development app
+pnpm build                 # Type-check + build production executable
 
-npm run tauri:dev    # Start Tauri development app
-npm run tauri:build  # Build production executable
+pnpm vite:dev              # Start Vite dev server only
+pnpm vite:build            # Type-check + build Vue app for production
+
+pnpm type-check            # TypeScript type-check only (no emit)
+
+pnpm cargo:clean           # cargo clean (src-tauri/Cargo.toml)
+pnpm cargo:update          # cargo update (src-tauri/Cargo.toml)
+
+pnpm create-desktop-icons  # Generate desktop icons from app-icon.png, then remove android/ios icons
+pnpm vite:clean            # Clean Vite cache + build output (node_modules/.vite + app)
 ```
 
 ## 🛠️ Tech Stack
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| Vue | 3.5+ | Frontend framework |
-| Vite | 7.x | Build tool |
-| Tailwind CSS | 4.x | Styling |
-| Vue Router | 4.x | Routing |
-| Tauri | 2.x | Desktop app framework |
-| Rust | 1.70+ | Backend runtime |
+| Technology   | Version | Purpose               |
+| ------------ | ------- | --------------------- |
+| Vue          | 3.5+    | Frontend framework    |
+| Vite         | 7.x     | Build tool            |
+| Tailwind CSS | 4.x     | Styling               |
+| Vue Router   | 4.x     | Routing               |
+| Tauri        | 2.x     | Desktop app framework |
+| Rust         | 1.91+   | Backend runtime       |
 
 ## 🔧 Build Targets
 
@@ -163,7 +179,7 @@ Configure in `tauri.conf.json`:
 ```json
 {
   "bundle": {
-    "targets": "all"  // or ["nsis", "msi", "deb", "appimage", "dmg"]
+    "targets": "all"
   }
 }
 ```
@@ -178,7 +194,7 @@ For distributing to users, consider code signing:
 - **macOS**: Requires Apple Developer account and notarization
 - **Linux**: No signing required
 
-See [Tauri Distribution Guide](https://v2.tauri.app/distribute/)
+See Tauri Distribution Guide: https://v2.tauri.app/distribute/
 
 ## 📝 License
 
@@ -186,40 +202,36 @@ This template is open source and available under the MIT License.
 
 ## 🙏 Credits
 
-- App icon: [Example icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/example)
-- Built with [Tauri](https://tauri.app/), [Vue](https://vuejs.org/), and [Vite](https://vitejs.dev/)
+- App icon: Example icons created by Freepik - Flaticon (https://www.flaticon.com/free-icons/example)
+- Built with Tauri (https://tauri.app/), Vue (https://vuejs.org/), and Vite (https://vitejs.dev/)
 
 ## 💡 Tips
 
 - Keep `Cargo.toml` and `main.rs` generic across projects
 - Only modify `tauri.conf.json` for app-specific settings
-- Place your main icon (1024x1024 PNG) in project root before generating
+- Place your main icon (1024×1024 PNG) in project root before generating
 - Mobile icon folders can be safely deleted for desktop-only apps
 - Use `src-tauri/capabilities` for permissions and security policies
-- Check [Tauri documentation](https://v2.tauri.app/) for advanced features
+- Check https://v2.tauri.app/ for advanced features
 
 ## 🐛 Troubleshooting
 
 **Build fails with Rust errors:**
+
 ```bash
 cd src-tauri && cargo clean && cd ..
-npm run tauri:dev
+pnpm tauri dev
 ```
 
 **Icons not showing:**
+
 ```bash
-npm run tauri icon app-icon.png
+pnpm tauri icon app-icon.png
 ```
 
 **Port 5173 already in use:**
-Change port in `vite.config.js` and `tauri.conf.json`
+Change port in `vite.config.ts` and `tauri.conf.json`
 
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
-
----
-
-**Happy Building! 🎉**
-
-Made with ❤️ using Vue + Tauri

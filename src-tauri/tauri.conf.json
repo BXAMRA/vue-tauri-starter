@@ -20,6 +20,16 @@
         "resizable": true,
         "decorations": false,
         "url": "/"
+      },
+      {
+        "label": "about",
+        "center": true,
+        "width": 400,
+        "height": 320,
+        "resizable": false,
+        "decorations": false,
+        "visible": false,
+        "url": "/about"
       }
     ],
     "security": {

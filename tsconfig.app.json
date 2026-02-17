@@ -10,7 +10,8 @@
       // "@models/*": ["./src/models/*"], // Models
       // "@stores/*": ["./src/stores/*"], // Pinia stores
       "@layouts/*": ["./src/layouts/*"],
-      // "@ui/*": ["./src/components/ui/*"], // Shadcn-vue folder
+      "@ui/*": ["./src/components/ui/*"], // Shadcn-vue folder
+      "@app/*": ["./src/components/app/*"], // Custom app components
       "@services/*": ["./src/services/*"],
       "@components/*": ["./src/components/*"],
       "@composables/*": ["./src/composables/*"],

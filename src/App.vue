@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import {  baseFontSize } from '@services/Store'
+import { baseFontSize } from '@services/Store'
 
 import { useAppMenu } from '@composables/AppMenu'
 
@@ -24,5 +24,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <router-view />
+  <div class="flex h-screen flex-col font-sans">
+    <div class="flex-1 overflow-hidden">
+      <router-view />
+    </div>
+  </div>
 </template>

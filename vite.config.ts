@@ -35,7 +35,8 @@ export default defineConfig({
       // '@models': path.resolve(__dirname, './src/models'), // Models
       // '@stores': path.resolve(__dirname, './src/stores'), // Pinia Stores
       '@layouts': path.resolve(__dirname, './src/layouts'),
-      // '@ui': path.resolve(__dirname, './src/components/ui'), // Shadcn-vue folder
+      '@ui': path.resolve(__dirname, './src/components/ui'), // Shadcn-vue folder
+      '@app': path.resolve(__dirname, './src/components/app'), // Custom app components
       '@services': path.resolve(__dirname, './src/services'),
       '@components': path.resolve(__dirname, './src/components'),
       '@composables': path.resolve(__dirname, './src/composables'),

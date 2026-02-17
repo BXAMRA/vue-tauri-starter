@@ -69,7 +69,7 @@ jobs:
         run: npm ci
 
       - name: Build Tauri app
-        run: npm run tauri:build -- --target ${{ matrix.target }}
+        run: npm run build -- --target ${{ matrix.target }}
 
       - name: Upload artifacts (Windows)
         if: matrix.os == 'windows'
