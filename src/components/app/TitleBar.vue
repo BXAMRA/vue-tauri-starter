@@ -2,13 +2,21 @@
 import { invoke } from '@tauri-apps/api/core'
 import { useSlots, computed } from 'vue'
 
+import { getCurrentWindow } from '@tauri-apps/api/window'
+
 import AppPreferences from '@app/PreferencesDialog.vue'
+
+const props = withDefaults(defineProps<{ closeMode?: boolean }>(), {
+  closeMode: false,
+})
 
 const slots = useSlots()
 const hasBody = computed(() => !!slots.body)
 
 const minimize = () => invoke('minimize_window')
-const close = () => invoke('close_window')
+const exitApp = () => invoke('exit_app')
+
+const closeWindow = () => getCurrentWindow().hide()
 
 const startDrag = async () => await invoke('start_dragging')
 </script>
@@ -22,7 +30,7 @@ const startDrag = async () => await invoke('start_dragging')
       </h1>
 
       <!-- Window Controls -->
-      <div class="ms-auto flex items-end gap-1">
+      <div v-if="!props.closeMode" class="ms-auto flex items-end gap-1">
         <div @mousedown.stop>
           <AppPreferences
             variant="ghost"
@@ -43,12 +51,24 @@ const startDrag = async () => await invoke('start_dragging')
 
         <button
           @mousedown.stop
-          @click="close"
+          @click="exitApp"
+          tabindex="-1"
+          class="me-3 h-8 rounded-b-md px-3 font-mono text-sm text-red-500 underline-offset-3 hover:cursor-pointer hover:bg-red-600 hover:text-white hover:underline"
+          title="Exit"
+        >
+          Exit
+        </button>
+      </div>
+
+      <div v-if="props.closeMode" class="ms-auto flex items-end gap-1">
+        <button
+          @mousedown.stop
+          @click="closeWindow"
           tabindex="-1"
           class="me-3 h-8 rounded-b-md px-3 font-mono text-sm text-red-500 underline-offset-3 hover:cursor-pointer hover:bg-red-600 hover:text-white hover:underline"
           title="Close"
         >
-          Exit
+          Close
         </button>
       </div>
     </div>

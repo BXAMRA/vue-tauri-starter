@@ -1,24 +1,18 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use tauri::Manager;
-
 #[tauri::command]
-fn minimize_window(app: tauri::AppHandle) {
-  if let Some(window) = app.get_webview_window("main") {
-    let _ = window.minimize();
-  }
+fn minimize_window(window: tauri::WebviewWindow) -> Result<(), String> {
+  window.minimize().map_err(|e| e.to_string())
 }
 
 #[tauri::command]
-fn close_window(app: tauri::AppHandle) {
+fn exit_app(app: tauri::AppHandle) {
   app.exit(0);
 }
 
 #[tauri::command]
-fn start_dragging(app: tauri::AppHandle) {
-  if let Some(window) = app.get_webview_window("main") {
-    let _ = window.start_dragging();
-  }
+fn start_dragging(window: tauri::WebviewWindow) -> Result<(), String> {
+  window.start_dragging().map_err(|e| e.to_string())
 }
 
 fn main() {
@@ -28,7 +22,7 @@ fn main() {
     .plugin(tauri_plugin_store::Builder::new().build())
     .invoke_handler(tauri::generate_handler![
       minimize_window,
-      close_window,
+      exit_app,
       start_dragging,
     ])
     .run(tauri::generate_context!())

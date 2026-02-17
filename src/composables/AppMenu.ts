@@ -3,11 +3,31 @@ import { exit } from '@tauri-apps/plugin-process'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 import { Menu, Submenu, MenuItem, PredefinedMenuItem } from '@tauri-apps/api/menu'
 
+import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
+
 import { usePreferencesDialog } from '@composables/UsePreferencesDialog'
 
 let initialized = false
 
 const { openSettings } = usePreferencesDialog()
+
+async function openAboutWindow() {
+  // If it exists (because it’s in tauri.conf.json), just show it.
+  const existing = await WebviewWindow.getByLabel('about') // returns null if not found
+  const win =
+    existing ??
+    new WebviewWindow('about', {
+      url: '/about',
+      width: 400,
+      height: 320,
+      resizable: false,
+      decorations: false,
+      center: true,
+    }) // creates a new webview window
+
+  await win.show()
+  await win.setFocus()
+}
 
 export function useAppMenu() {
   async function init() {
@@ -22,7 +42,8 @@ export function useAppMenu() {
         await MenuItem.new({
           id: 'about',
           text: 'About',
-          action: () => {},
+          accelerator: 'CmdOrCtrl+Shift+I',
+          action: () => openAboutWindow().catch(console.error),
         }),
         await MenuItem.new({
           id: 'settings',
