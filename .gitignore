@@ -22,3 +22,5 @@ app-ssr
 *.sw?
 
 !src/**/*
+
+src-tauri/icons/
