@@ -102,7 +102,7 @@ Edit `src-tauri/tauri.conf.json`:
 
 ### Replace App Icon
 
-1. Place your 1024×1024 PNG icon in the project root (e.g., `app-icon.png`)
+1. Place your 1024×1024 PNG icon in the project root and rename to `app-icon.png`
 2. Generate all required formats (for desktop only):
 
 ```bash
