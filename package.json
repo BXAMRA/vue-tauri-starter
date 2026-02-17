@@ -4,23 +4,35 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "tauri": "tauri",
-    "tauri:dev": "tauri dev",
-    "tauri:build": "tauri build"
+    "dev": "tauri dev",
+    "build": "vue-tsc -b && tauri build",
+    "vite:dev": "vite",
+    "vite:build": "vue-tsc -b && vite build",
+    "type-check": "vue-tsc --noEmit -p tsconfig.app.json",
+    "cargo:clean": "cargo clean --manifest-path src-tauri/Cargo.toml",
+    "cargo:update": "cargo update --manifest-path src-tauri/Cargo.toml",
+    "vite:clean": "rm -rf node_modules/.vite app"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
-    "@tauri-apps/api": "^2.0.1",
+    "@tauri-apps/api": "^2.10.1",
+    "@tauri-apps/plugin-os": "~2.3.2",
+    "@tauri-apps/plugin-process": "~2.3.1",
+    "@tauri-apps/plugin-store": "~2.4.2",
+    "lucide-vue-next": "^0.574.0",
     "tailwindcss": "^4.1.18",
-    "vue": "^3.5.24",
+    "vue": "^3.5.28",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.9.6",
-    "@vitejs/plugin-vue": "^6.0.1",
-    "vite": "^7.2.4"
+    "@tauri-apps/cli": "^2.10.0",
+    "@types/node": "^25.2.3",
+    "@vitejs/plugin-vue": "^6.0.4",
+    "@vue/tsconfig": "^0.8.1",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vue-tsc": "^3.2.4"
   }
 }

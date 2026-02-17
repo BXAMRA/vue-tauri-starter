@@ -20,3 +20,5 @@ app-ssr
 *.njsproj
 *.sln
 *.sw?
+
+!src/**/*
