@@ -1,6 +1,9 @@
 name: Build Desktop App
 
 on:
+  # push:
+  #   tags:
+  #     - 'v*'
   workflow_dispatch:
 
 jobs:
@@ -9,27 +12,31 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Windows builds
+          # Windows x64
           - platform: windows-latest
             target: x86_64-pc-windows-msvc
             arch: x64
             os: windows
+
+          # Windows arm64
           - platform: windows-latest
             target: aarch64-pc-windows-msvc
             arch: arm64
             os: windows
 
-          # macOS builds
+          # macOS x64
           - platform: macos-latest
             target: x86_64-apple-darwin
             arch: x64
             os: macos
+
+          # macOS arm64
           - platform: macos-latest
             target: aarch64-apple-darwin
             arch: arm64
             os: macos
 
-          # Linux build
+          # Linux x64
           - platform: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             arch: x64
@@ -44,8 +51,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: "npm"
+          node-version: 24
+          cache: 'npm'
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
