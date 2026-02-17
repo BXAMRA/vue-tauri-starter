@@ -151,7 +151,7 @@ pnpm type-check            # TypeScript type-check only (no emit)
 pnpm cargo:clean           # cargo clean (src-tauri/Cargo.toml)
 pnpm cargo:update          # cargo update (src-tauri/Cargo.toml)
 
-pnpm create-desktop-icons  # Generate desktop icons from app-icon.png, then remove android/ios icons
+pnpm create-desktop-icons  # Generate desktop icons from app-icon.png, and cleans up
 pnpm vite:clean            # Clean Vite cache + build output (node_modules/.vite + app)
 ```
 
