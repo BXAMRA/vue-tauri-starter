@@ -12,7 +12,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: DefaultView,
-    children: [{ path: 'home', component: Home, meta: { title: 'Home', description: 'This is the home page' } }],
+    children: [{ path: 'home', component: Home, meta: { title: 'Home' } }],
   },
 
   { path: '/:pathMatch(.*)*', redirect: '/home' },
