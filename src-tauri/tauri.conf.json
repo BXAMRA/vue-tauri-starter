@@ -7,7 +7,8 @@
     "frontendDist": "../app",
     "devUrl": "http://localhost:5173",
     "beforeDevCommand": "pnpm vite:dev",
-    "beforeBuildCommand": "pnpm vite:build"
+    "beforeBuildCommand": "pnpm vite:build",
+    "removeUnusedCommands": true
   },
   "app": {
     "windows": [
@@ -30,6 +31,17 @@
         "decorations": false,
         "visible": false,
         "url": "/about"
+      },
+      {
+        "label": "docs",
+        "center": true,
+        "minWidth": 1280,
+        "minHeight": 720,
+        "resizable": true,
+        "decorations": true,
+        "title": "Docs",
+        "visible": false,
+        "url": "docs/index.html"
       }
     ],
     "security": {

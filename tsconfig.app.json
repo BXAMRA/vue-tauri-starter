@@ -7,11 +7,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@pages/*": ["src/pages/*"],
-      // "@models/*": ["./src/models/*"], // Models
-      // "@stores/*": ["./src/stores/*"], // Pinia stores
+      "@models/*": ["./src/models/*"],
+      "@stores/*": ["./src/stores/*"],
       "@layouts/*": ["./src/layouts/*"],
-      "@ui/*": ["./src/components/ui/*"], // Shadcn-vue folder
-      "@app/*": ["./src/components/app/*"], // Custom app components
+      "@ui/*": ["./src/components/ui/*"],
+      "@app/*": ["./src/components/app/*"],
       "@services/*": ["./src/services/*"],
       "@components/*": ["./src/components/*"],
       "@composables/*": ["./src/composables/*"],

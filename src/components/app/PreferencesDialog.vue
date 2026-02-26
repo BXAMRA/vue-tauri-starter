@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { usePreferencesDialog } from '@composables/UsePreferencesDialog'
-import { useAppPreferences } from '@composables/UseAppPreferences'
+import { usePreferencesDialog } from '@/composables/AppPreferencesDialog'
+import { useAppPreferences, type Theme, type Palette } from '@composables/AppPreferences'
 import { Settings, Plus, Minus } from 'lucide-vue-next'
 import { platform } from '@tauri-apps/plugin-os'
 
@@ -17,6 +17,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@ui/alert-dialog'
+
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@ui/select'
 
 import { Kbd, KbdGroup } from '@ui/kbd'
 
@@ -38,26 +40,40 @@ const props = withDefaults(
   }
 )
 
-const { fontSize: globalFontSize, saveAppPreferences } = useAppPreferences()
+const {
+  theme: globalTheme,
+  palette: globalThemePalette,
+  fontSize: globalFontSize,
+  saveAppPreferences,
+} = useAppPreferences()
 
 // Local state for preview
+const theme = ref<Theme>('system')
+const themePalette = ref<Palette>('red')
 const fontSize = ref(16)
 const isSaving = ref(false)
 
 const hasChanges = computed(() => {
-  return fontSize.value !== globalFontSize.value
+  return (
+    fontSize.value !== globalFontSize.value ||
+    theme.value !== globalTheme.value ||
+    themePalette.value !== globalThemePalette.value
+  )
 })
 
 // Font size presets
 const MIN_FONT_SIZE = 14
 const MAX_FONT_SIZE = 22
+const DEFAULT_THEME = 'system' as const
+const DEFAULT_THEME_PALETTE = 'red' as const
 const DEFAULT_FONT_SIZE = 16
 
 // Load from composable when dialog opens
 watch(preferencesOpen, (isOpen) => {
-  if (isOpen) {
-    fontSize.value = globalFontSize.value
-  }
+  if (!isOpen) return
+  fontSize.value = globalFontSize.value
+  theme.value = globalTheme.value
+  themePalette.value = globalThemePalette.value
 })
 
 const increaseFontSize = () => {
@@ -73,22 +89,27 @@ const decreaseFontSize = () => {
 }
 
 const loadDefaults = () => {
+  theme.value = DEFAULT_THEME
+  themePalette.value = DEFAULT_THEME_PALETTE
   fontSize.value = DEFAULT_FONT_SIZE
 }
 
-const isAtDefaults = computed(() => {
-  return fontSize.value === DEFAULT_FONT_SIZE
-})
+const isAtDefaults = computed(
+  () =>
+    fontSize.value === DEFAULT_FONT_SIZE &&
+    theme.value === DEFAULT_THEME &&
+    themePalette.value === DEFAULT_THEME_PALETTE
+)
 
 const savePreferences = async () => {
   if (isSaving.value) return
 
   isSaving.value = true
   try {
-    // Update composable values (triggers reactive updates everywhere)
+    globalTheme.value = theme.value
+    globalThemePalette.value = themePalette.value
     globalFontSize.value = fontSize.value
 
-    // Save to store
     await saveAppPreferences()
 
     preferencesOpen.value = false
@@ -146,6 +167,49 @@ const savePreferences = async () => {
       </AlertDialogHeader>
 
       <form id="dialogForm" class="space-y-4" @submit.prevent="savePreferences">
+        <!-- Theme (light/dark/system) -->
+        <div class="flex items-center justify-between">
+          <Label class="text-sm font-medium">Theme</Label>
+
+          <Select v-model="theme">
+            <SelectTrigger class="w-50">
+              <SelectValue placeholder="Select theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Appearance</SelectLabel>
+                <SelectItem value="system">System (Default)</SelectItem>
+                <SelectItem value="light">Light</SelectItem>
+                <SelectItem value="dark">Dark</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <!-- Theme Palette -->
+        <div class="flex items-center justify-between">
+          <Label class="text-sm font-medium">Theme Palette</Label>
+
+          <Select v-model="themePalette">
+            <SelectTrigger class="w-50">
+              <SelectValue placeholder="Select palette" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Color schemes</SelectLabel>
+                <SelectItem value="red">Red (Default)</SelectItem>
+                <SelectItem value="monochrome">Monochrome</SelectItem>
+                <SelectItem value="rose">Rose</SelectItem>
+                <SelectItem value="orange">Orange</SelectItem>
+                <SelectItem value="green">Green</SelectItem>
+                <SelectItem value="blue">Blue</SelectItem>
+                <SelectItem value="yellow">Yellow</SelectItem>
+                <SelectItem value="violet">Violet</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+
         <!-- Font Size Control -->
         <div class="flex items-center justify-between">
           <Label class="text-sm font-medium">Text Size</Label>

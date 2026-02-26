@@ -14,7 +14,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 node_modules
-app
 app-ssr
 *.local
 .DS_Store
@@ -25,3 +24,9 @@ app-ssr
 *.sw?
 
 !src/**/*
+
+# D O C S
+docs/.vitepress/cache
+
+# B U I L D
+app/*/**

@@ -1,14 +1,16 @@
 import { createApp } from 'vue'
-// import { createPinia } from 'pinia'
+import { createPinia } from 'pinia'
 import App from '@/App.vue'
 import router from '@/router'
 import '@/style.css'
 
-// const pinia = createPinia()
+import { theme, palette } from '@services/Store'
+
+const pinia = createPinia()
 
 const media = window.matchMedia('(prefers-color-scheme: dark)')
 
-const applyTheme = () => {
+const applyModeFromSystem = () => {
   document.documentElement.classList.toggle('dark', media.matches)
 }
 
@@ -34,10 +36,25 @@ if (import.meta.env.PROD) {
   )
 }
 
-applyTheme()
-media.addEventListener('change', applyTheme)
+;(async () => {
+  try {
+    document.documentElement.dataset.theme = await palette.get()
 
-const app = createApp(App)
-app.use(router)
-// app.use(pinia)
-app.mount('#app')
+    const savedTheme = await theme.get()
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else if (savedTheme === 'light') {
+      document.documentElement.classList.remove('dark')
+    } else {
+      // 'system' or no saved value — follow OS
+      applyModeFromSystem()
+      media.addEventListener('change', applyModeFromSystem)
+    }
+  } catch {
+    document.documentElement.dataset.theme = 'red'
+    applyModeFromSystem()
+    media.addEventListener('change', applyModeFromSystem)
+  }
+
+  createApp(App).use(router).use(pinia).mount('#app')
+})()

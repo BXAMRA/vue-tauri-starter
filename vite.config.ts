@@ -32,11 +32,11 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
       '@pages': path.resolve(__dirname, './src/pages'),
-      // '@models': path.resolve(__dirname, './src/models'), // Models
-      // '@stores': path.resolve(__dirname, './src/stores'), // Pinia Stores
+      '@models': path.resolve(__dirname, './src/models'),
+      '@stores': path.resolve(__dirname, './src/stores'),
       '@layouts': path.resolve(__dirname, './src/layouts'),
-      '@ui': path.resolve(__dirname, './src/components/ui'), // Shadcn-vue folder
-      '@app': path.resolve(__dirname, './src/components/app'), // Custom app components
+      '@ui': path.resolve(__dirname, './src/components/ui'),
+      '@app': path.resolve(__dirname, './src/components/app'),
       '@services': path.resolve(__dirname, './src/services'),
       '@components': path.resolve(__dirname, './src/components'),
       '@composables': path.resolve(__dirname, './src/composables'),
