@@ -13,8 +13,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-edo: 'Edo', sans-serif;
-  --font-brand: 'Brand', sans-serif;
   --font-sans: 'Figtree', sans-serif;
   --font-mono: 'JetBrainsMono', monospaced;
   --font-code: 'CascadiaCode', monospaced;
@@ -126,14 +124,4 @@
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
-}
-
-@font-face {
-  font-family: 'Edo';
-  src: url('/fonts/edo.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Brand';
-  src: url('/fonts/major.ttf') format('truetype');
 }

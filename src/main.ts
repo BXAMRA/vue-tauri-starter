@@ -4,15 +4,9 @@ import App from '@/App.vue'
 import router from '@/router'
 import '@/style.css'
 
-import { theme, palette } from '@services/Store'
+import { loadAppPreferences } from '@composables/AppPreferences'
 
 const pinia = createPinia()
-
-const media = window.matchMedia('(prefers-color-scheme: dark)')
-
-const applyModeFromSystem = () => {
-  document.documentElement.classList.toggle('dark', media.matches)
-}
 
 function shouldAllowCustomContextMenu(target: EventTarget | null) {
   const el = target instanceof Element ? target : null
@@ -37,24 +31,7 @@ if (import.meta.env.PROD) {
 }
 
 ;(async () => {
-  try {
-    document.documentElement.dataset.theme = await palette.get()
+  await loadAppPreferences()
 
-    const savedTheme = await theme.get()
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else if (savedTheme === 'light') {
-      document.documentElement.classList.remove('dark')
-    } else {
-      // 'system' or no saved value — follow OS
-      applyModeFromSystem()
-      media.addEventListener('change', applyModeFromSystem)
-    }
-  } catch {
-    document.documentElement.dataset.theme = 'red'
-    applyModeFromSystem()
-    media.addEventListener('change', applyModeFromSystem)
-  }
-
-  createApp(App).use(router).use(pinia).mount('#app')
+  createApp(App).use(pinia).use(router).mount('#app')
 })()

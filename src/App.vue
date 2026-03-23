@@ -1,25 +1,20 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { baseFontSize } from '@services/Store'
+import { onMounted, onBeforeUnmount } from 'vue'
 
 import { useAppMenu } from '@composables/AppMenu'
+import { useAppShortcuts } from '@composables/AppShortcuts'
 
-const { init: initMenu } = useAppMenu()
+const { init: initMenu, destroy: destroyMenu } = useAppMenu()
+const { registerShortcuts, unregisterShortcuts } = useAppShortcuts()
 
-const initializeFontSize = async () => {
-  try {
-    const savedFontSize = await baseFontSize.get()
-    document.documentElement.style.fontSize = `${savedFontSize}px`
-  } catch (e) {
-    console.warn('Failed to load font size:', e)
-    document.documentElement.style.fontSize = '16px'
-  }
-}
+onMounted(async () => {
+  await initMenu()
+  await registerShortcuts()
+})
 
-onMounted(() => {
-  void initMenu()
-
-  void initializeFontSize()
+onBeforeUnmount(() => {
+  destroyMenu()
+  void unregisterShortcuts()
 })
 </script>
 
