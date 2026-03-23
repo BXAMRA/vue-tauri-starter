@@ -13,7 +13,7 @@
     "cargo:update": "cargo update --manifest-path src-tauri/Cargo.toml",
     "create-desktop-icons": "tauri icon app-icon.png && rm -rf src-tauri/icons/android src-tauri/icons/ios",
     "vite:clean": "rm -rf node_modules/.vite app",
-    "clean:all": "pnpm run cargo:clean && pnpm run vite:clean"
+    "clean:all": "pnpm run cargo:clean && pnpm run vite:clean && rm -rf node_modules"
   },
   "packageManager": "pnpm@10.32.1",
   "dependencies": {
